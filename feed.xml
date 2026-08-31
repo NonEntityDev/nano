@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+
+  <channel>
+    <title>{{ settings.site.title | e }}</title>
+    <link>{{ settings.site.base_url | e }}</link>
+    <description>{{ settings.site.description | e }}</description>
+
+    {% if settings.site.feed_url %}
+    <atom:link href="{{ settings.site.feed_url | e }}"
+               rel="self"
+               type="application/rss+xml" />
+    {% else %}
+    <atom:link href="{{ settings.site.url | trim('/') }}/feed.xml"
+               rel="self"
+               type="application/rss+xml" />
+    {% endif %}
+
+    {% if settings.site.last_build_date %}
+    <lastBuildDate>{{ settings.site.last_build_date }}</lastBuildDate>
+    {% endif %}
+
+    {% for entry in items %}
+    <item>
+      <title>{{ entry.headline | e }}</title>
+      <link>{{ settings.site.base_url | trim('/') }}{{ entry.identifier }}</link>
+      <guid isPermaLink="true">{{ settings.site.base_ul | trim('/') }}{{ entry.identifier }}</guid>
+
+      {% if entry.datePublished %}
+      <pubDate>{{ entry.datePublished}}</pubDate>
+      {% endif %}
+
+      {% if entry.author %}
+      <author>{{ entry.author[0].name | e }}</author>
+      {% endif %}
+
+      {% if entry.about %}
+      <category>{{ entry.about.name | e }}</category>
+      {% endif %}
+
+      {% if entry.description %}
+      <description>{{ entry.description | e }}</description>
+      <content:encoded>
+	<![CDATA[
+	  {{ entry.description }}
+      	]]></content:encoded>
+      {% endif %}
+    </item>
+    {% endfor %}
+
+  </channel>
+</rss>

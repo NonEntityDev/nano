@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-UK">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if "excerpt" in settings.site %}
+    	<meta name="description" content="{{ settings.site.excerpt }}" />
+    	<meta property="og:description" content="{{ settings.site.excerpt }}" />
+    {% endif %}
+    {% if "keywords" in settings %}
+        <meta name="keywords" content="{{ settings.keywords | join(',') }}/">
+	{% for keyword in settings.keywords %}
+            <meta property="article:tag" content="{{ keyword }}" />
+	{% endfor %}
+    {% endif %}
+    <meta name="robots" content="index,follow" />
+    <meta name="page" content="{{ pagination.current_page }}">
+    <meta property="og:title" content="{{ settings.site.title  }}" />
+    <meta property="og:type" content="website" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <title>{{ settings.site.title }}</title>
+  </head>
+  <body class="pt-5">
+    {% include 'shared/_navbar.html' %}
+    <main class="container">
+      {% for entry in items %}
+      <div class="row mt-3">
+        <div class="col pt-5">
+	   <a href="{{ entry.about.url }}">
+	     <small class="text-mutted">
+	       {{ entry.about.name }}
+	     </small>
+	   </a><br/>
+	  <a href="{{ entry.identifier }}" title="{{ entry.headline }}">
+	    <h1 class="display-6">{{ entry.headline }}</h1>
+	  </a>
+          <p class="text-mutted mb-0">
+	    <small>
+              By <strong>{{ entry.author[0].name }}</strong> on {{ entry.datePublished }}.
+            </small>
+          </p>
+	  <p class="text-mutted">
+            <small class="tag-list">
+	      Tags ... 
+	      {% for keyword in entry.keywords %}
+	          <a href="/tags/{{ keyword }}.html">{{ keyword }}</a>{% if not loop.last %} &middot; {% endif %}
+	      {% endfor %}
+            </small>
+	  </p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+	  <p class="summary">
+	    <a href="{{ entry.identifier }}">{{ entry.description | e }}</a>
+	  </p>
+        </div>
+      </div>
+      {% endfor %}
+    </main>
+    <footer class="container mt-5">
+    	{% include 'shared/_footer.html' %}
+    </footer>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

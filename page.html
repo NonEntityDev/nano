@@ -7,7 +7,7 @@
     <meta name="description" content="{{ content.excerpt }}" />
     <meta name="keywords" content="{% for tag in content.tags %}{{ tag.name  }},{% endfor %}">
     <meta name="robots" content="index,follow" />
-    <meta name="identifier" content="{{ content.link }}">
+    <meta name="identifier" content="{{ content.permalink_path }}">
     <meta property="og:title" content="{{ content.title  }}" />
     <meta property="og:type" content="{{ content.type }}" />
     <meta property="og:description" content="{{ content.excerpt }}" />
@@ -27,7 +27,7 @@
           "keywords": "{% for tag in content.tags %}{{ tag.name }} {% endfor %}",
           "datePublished": "{{ content.created_at }}",
           "dateModified": "{{ content.modified_at }}",
-          "identifier": "{{ content.link }}",
+          "identifier": "{{ content.permalink_path }}",
           "author": [
               {
                   "@type": "Person",
@@ -52,11 +52,13 @@
                 By <span class="lead">{{ content.author }}</span> on {{ content.created_at }}.
               </small>
             </p>
-            {% for tag in content.tags %}
-                <span class="badge bg-light me-1 rounded">
-                  <a href="/tags/{{ tag.slug }}.html" >{{ tag.name }}</a>
-                </span>
-            {% endfor %}
+            <p class="text-mutted">
+              <small class="tag-list">
+                {% for tag in content.tags %}
+                    <a href="/tags/{{ tag.slug }}.html">{{ tag.name }}</a>{% if not loop.last %} &middot; {% endif %}
+                {% endfor %}
+              </small>
+            </p>
         </div>
       </div>
       <div class="row mt-3">
