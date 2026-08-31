@@ -42,7 +42,7 @@ byline, tags, body and an optional "See also..." section, plus OpenGraph tags an
 | FrontMatter | `created_at` | Publication date (`yyyy-mm-dd`). Used as `article:published_time` and JSON-LD `datePublished`. | Date |
 | FrontMatter | `modified_at` | Last-modified date (`yyyy-mm-dd`). Used as `article:modified_time` and JSON-LD `dateModified`. | Date |
 | FrontMatter | `author` | Name of the content author. | String |
-| FrontMatter | `permalink_path` | Canonical URL/path of the document. Used as both the `identifier` meta tag and the JSON-LD `identifier`. | String |
+| vox | `permalink_path` | Canonical URL/path of the document, computed by `vox` from the document's location — not a FrontMatter field. Used as both the `identifier` meta tag and the JSON-LD `identifier`. | String |
 | FrontMatter | `body` | Rendered document body. | HTML |
 | FrontMatter | `related_content` | Optional list of external/related links rendered under "See also...". | List of `{url, title}` |
 | settings.yaml | `settings.site.base_url` | Site base URL, used to build the JSON-LD `about` category link. | String |
@@ -65,14 +65,17 @@ subtitle. Same FrontMatter contract as `article.html` minus `subtitle`.
 | FrontMatter | `created_at` | Publication date (`yyyy-mm-dd`). Used as `article:published_time` and JSON-LD `datePublished`. | Date |
 | FrontMatter | `modified_at` | Last-modified date (`yyyy-mm-dd`). Used as `article:modified_time` and JSON-LD `dateModified`. | Date |
 | FrontMatter | `author` | Name of the content author. | String |
-| FrontMatter | `permalink_path` | Canonical URL/path of the document. Used as both the `identifier` meta tag and the JSON-LD `identifier`. | String |
+| vox | `permalink_path` | Canonical URL/path of the document, computed by `vox` from the document's location — not a FrontMatter field. Used as both the `identifier` meta tag and the JSON-LD `identifier`. | String |
 | FrontMatter | `body` | Rendered document body. | HTML |
 | FrontMatter | `related_content` | Optional list of external/related links rendered under "See also...". | List of `{url, title}` |
 
 Dependencies: `shared/_navbar.html`, `shared/_footer.html`.
 
-A reusable FrontMatter scaffold for content templates can be found at
-[templates/article.md](templates/article.md).
+Reusable FrontMatter scaffolds for content templates can be found at
+[templates/article.md](templates/article.md) (for `article.html`) and
+[templates/page.md](templates/page.md) (for `page.html`). Copy the one that matches your
+content type into your `vox` content directory, rename it, and edit the fields — every field
+`article.html`/`page.html` reads is already present and filled in.
 
 ### Indexing templates
 
@@ -144,59 +147,24 @@ its own page (`content`) or listed alongside others (`items`):
 | `tags` | `tags` (list of `{name, slug}`) | `keywords` (list of strings) |
 | `author` | `author` (string) | `author[0].name` (list of `{name}`) |
 | `created_at` | `created_at` | `datePublished` |
-| `permalink_path` | `permalink_path` | `identifier` |
 
-## Example FrontMatter document
+`vox` also computes a document's canonical path from its location (not from FrontMatter) and
+exposes it as `content.permalink_path` / `items[].identifier`.
 
-The following is a valid example of a FrontMatter file ready to use with `article.html` or
-`page.html`:
+## Sample files
 
-```yaml
----
-title: Sample Article
-excerpt: ->
-    This is a sample FrontMatter file that contains all the necessary fields to
-    properly be rendered using the article.html template of Nano theme.
-category:
-    name: Documentation
-    slug: documentation
-tags:
-    - name: Theme
-      slug: theme
-    - name: Nano
-      slug: nano
-type: article
-created_at: 2026-08-19
-modified_at: 2026-08-20
-author: NonEntityDev
-related_content:
-    - url: http://domain.com/docs
-      title: Official Theme Documentation
----
+The [`templates/`](templates/) folder holds ready-to-use samples, kept in sync with the field
+tables above — copy them rather than retyping FrontMatter or settings by hand:
 
-This is an **example** of a FrontMatter document for articles that is ready to be
-rendered using the ```article.html``` template of the Nano theme.
-```
+| File | Use it for |
+|------|------------|
+| [templates/article.md](templates/article.md) | A FrontMatter scaffold for `article.html`, with every field the template reads (including the optional `subtitle` and `related_content`) already filled in. |
+| [templates/page.md](templates/page.md) | The same scaffold for `page.html` (no `subtitle`, since that template doesn't render one). |
+| [templates/settings.yaml](templates/settings.yaml) | A `settings.yaml` with every site-wide setting read by Nano's templates (`site.*` and `keywords`). |
 
-## Example `settings.yaml`
-
-The following covers every setting read by Nano's templates:
-
-```yaml
-site:
-    name: My Site
-    title: My Site
-    excerpt: A minimalist blog about things.
-    description: A minimalist blog about things.
-    author: NonEntityDev
-    base_url: https://domain.com
-    url: https://domain.com
-    feed_url: https://domain.com/feed.xml
-    last_build_date: 2026-08-19
-keywords:
-    - blog
-    - minimalist
-```
+To start a new site or piece of content: copy the relevant sample into place (`settings.yaml` at
+your `vox` site root, `article.md`/`page.md` into your content directory under a new name), then
+edit the values — nothing needs to be added, only changed.
 
 ## Assets
 

@@ -1,0 +1,13 @@
+site:
+    name: My Site
+    title: My Site
+    excerpt: A minimalist blog about things.
+    description: A minimalist blog about things.
+    author: NonEntityDev
+    base_url: https://domain.com
+    url: https://domain.com
+    feed_url: https://domain.com/feed.xml
+    last_build_date: 2026-08-19
+keywords:
+    - blog
+    - minimalist

@@ -1,9 +1,8 @@
 ---
-title: Sample Article
-subtitle: An optional lead-in shown under the title
+title: Sample Page
 excerpt: >-
     This is a sample FrontMatter file that contains all the necessary fields to
-    properly be rendered using the article.html template of Nano theme.
+    properly be rendered using the page.html template of Nano theme.
 category:
     name: Documentation
     slug: documentation
@@ -12,7 +11,7 @@ tags:
       slug: theme
     - name: Nano
       slug: nano
-type: article
+type: page
 created_at: 2026-08-19
 modified_at: 2026-08-20
 author: NonEntityDev
@@ -21,5 +20,5 @@ related_content:
       title: Official Theme Documentation
 ---
 
-This is an **example** of a FrontMatter document for articles that is ready to be 
-rendered using the ```article.html``` template of the Nano theme.
+This is an **example** of a FrontMatter document for static pages that is ready to be 
+rendered using the ```page.html``` template of the Nano theme.

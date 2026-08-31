@@ -8,6 +8,8 @@
     <meta name="keywords" content="{% for tag in content.tags %}{{ tag.name  }},{% endfor %}">
     <meta name="robots" content="index,follow" />
     <meta name="identifier" content="{{ content.permalink_path }}">
+    <meta name="category" content="{{ content.category.name }}">
+    <meta name="category-slug" content="{{ content.category.slug }}">
     <meta property="og:title" content="{{ content.title  }}" />
     <meta property="og:type" content="{{ content.type }}" />
     <meta property="og:description" content="{{ content.excerpt }}" />
@@ -22,9 +24,19 @@
       {
           "@context": "https://schema.org",
           "@type": "Article",
-          "articleSection": "{{ content.category.name }}",
+	  "about": {
+	    "@type": "DefinedTerm",
+	    "@id": "{{ settings.site.base_url }}/categories/{{ content.category.slug }}.html",
+	    "name": "{{ content.category.name }}",
+	    "url": "{{ settings.site.base_url }}/categories/{{ content.category.slug }}.html"
+	  },
           "headline": "{{ content.title }}",
-          "keywords": "{% for tag in content.tags %}{{ tag.name }} {% endfor %}",
+	  "description": {{ content.excerpt | tojson }},
+          "keywords": [
+	    {% for tag in content.tags %}
+		"{{ tag }}"{% if not loop.last %},{% endif %}
+	    {% endfor %}
+	  ],
           "datePublished": "{{ content.created_at }}",
           "dateModified": "{{ content.modified_at }}",
           "identifier": "{{ content.permalink_path }}",
@@ -38,6 +50,7 @@
     </script>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/style.css" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="{{ settings.site.title }}" href="/feed.xml">
     <title>{{ content.title }}</title>
   </head>
   <body class="pt-5">
